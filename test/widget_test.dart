@@ -8,11 +8,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:travel_hour/app.dart';
+import 'package:travel_hour/home_page.dart'; // Adicione esta linha
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    await tester
+        .pumpWidget(MyApp(home: HomePage())); // Adicione o parâmetro 'home'
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // Adicione esta linha
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -49,23 +50,21 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDpF4UrRuhxgI9y4gctY_kkfPGptwEoYY0',
-    appId: '1:760322055702:android:615ae8d988a280a2861f37',
-    messagingSenderId: '760322055702',
-    projectId: 'museu-das-mulheres---app',
-    storageBucket: 'museu-das-mulheres---app.firebasestorage.app',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['API_KEY_ANDROID']!,
+    appId: dotenv.env['APP_ID_ANDROID']!,
+    messagingSenderId: dotenv.env['MESSAGING_SENDER_ID']!,
+    projectId: dotenv.env['PROJECT_ID']!,
+    storageBucket: dotenv.env['STORAGE_BUCKET']!,
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCrXyuhQMqAxoBjkz8kYTZhna0FaaOyWVw',
-    appId: '1:760322055702:ios:96207031a24c7fc4861f37',
-    messagingSenderId: '760322055702',
-    projectId: 'museu-das-mulheres---app',
-    storageBucket: 'museu-das-mulheres---app.firebasestorage.app',
-    androidClientId: '760322055702-esqe4gabos4a1893eu2abpg2onjlhrm3.apps.googleusercontent.com',
-    iosClientId: '760322055702-f64oj0t8vkpb7fi1fvv9e9joe5gm85lv.apps.googleusercontent.com',
-    iosBundleId: 'com.mrblab.travelhourapp',
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['API_KEY_IOS']!,
+    appId: dotenv.env['APP_ID_IOS']!,
+    messagingSenderId: dotenv.env['MESSAGING_SENDER_ID']!,
+    projectId: dotenv.env['PROJECT_ID']!,
+    storageBucket: dotenv.env['STORAGE_BUCKET']!,
+    iosClientId: dotenv.env['IOS_CLIENT_ID']!,
+    iosBundleId: dotenv.env['IOS_BUNDLE_ID']!,
   );
-
 }
