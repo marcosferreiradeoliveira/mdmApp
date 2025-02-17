@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/pages/comments.dart';
-import 'package:travel_hour/utils/next_screen.dart';
+import 'package:app_museu_das_mulheres/models/place.dart';
+import 'package:app_museu_das_mulheres/pages/comments.dart';
+import 'package:app_museu_das_mulheres/utils/next_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../pages/guide.dart';
@@ -21,14 +21,13 @@ class TodoWidget extends StatelessWidget {
       children: <Widget>[
         Text('todo',
             style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
-                )).tr(),
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+            )).tr(),
         Container(
           margin: EdgeInsets.only(top: 5, bottom: 5),
           height: 3,
           width: 50,
-          
           decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.circular(40)),
@@ -72,15 +71,13 @@ class TodoWidget extends StatelessWidget {
                               size: 30,
                             ),
                           ),
-                          
                           Text(
-                              'travel guide',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
-                            ).tr(),
-                          
+                            'travel guide',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15),
+                          ).tr(),
                         ])),
                 onTap: () => nextScreen(context, GuidePage(d: placeData)),
               ),
@@ -120,7 +117,11 @@ class TodoWidget extends StatelessWidget {
                                 fontSize: 15),
                           ).tr(),
                         ])),
-                onTap: () => nextScreen(context, HotelPage(placeData: placeData,)),
+                onTap: () => nextScreen(
+                    context,
+                    HotelPage(
+                      placeData: placeData,
+                    )),
               ),
               InkWell(
                 child: Container(
@@ -151,15 +152,18 @@ class TodoWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                              'nearby restaurants',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
-                            ).tr(),
-                          
+                            'nearby restaurants',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15),
+                          ).tr(),
                         ])),
-                onTap: () => nextScreen(context, RestaurantPage(placeData: placeData,)),
+                onTap: () => nextScreen(
+                    context,
+                    RestaurantPage(
+                      placeData: placeData,
+                    )),
               ),
               InkWell(
                 child: Container(
@@ -197,7 +201,12 @@ class TodoWidget extends StatelessWidget {
                                 fontSize: 15),
                           ).tr(),
                         ])),
-                onTap: () => nextScreen(context, CommentsPage(collectionName: 'places', timestamp: placeData!.timestamp,)),
+                onTap: () => nextScreen(
+                    context,
+                    CommentsPage(
+                      collectionName: 'places',
+                      timestamp: placeData!.timestamp,
+                    )),
               ),
             ],
           ),

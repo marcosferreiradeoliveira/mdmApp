@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:travel_hour/models/blog.dart';
-import 'package:travel_hour/models/place.dart';
+import 'package:app_museu_das_mulheres/models/blog.dart';
+import 'package:app_museu_das_mulheres/models/place.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
 
 class BookmarkBloc extends ChangeNotifier {
   Future<List> getPlaceData() async {

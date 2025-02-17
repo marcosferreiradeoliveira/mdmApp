@@ -2,19 +2,19 @@ import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:travel_hour/blocs/ads_bloc.dart';
-import 'package:travel_hour/blocs/bookmark_bloc.dart';
-import 'package:travel_hour/blocs/sign_in_bloc.dart';
-import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/utils/sign_in_dialog.dart';
-import 'package:travel_hour/widgets/bookmark_icon.dart';
-import 'package:travel_hour/widgets/comment_count.dart';
-import 'package:travel_hour/widgets/custom_cache_image.dart';
-import 'package:travel_hour/widgets/love_count.dart';
-import 'package:travel_hour/widgets/love_icon.dart';
-import 'package:travel_hour/widgets/other_places.dart';
+import 'package:app_museu_das_mulheres/blocs/ads_bloc.dart';
+import 'package:app_museu_das_mulheres/blocs/bookmark_bloc.dart';
+import 'package:app_museu_das_mulheres/blocs/sign_in_bloc.dart';
+import 'package:app_museu_das_mulheres/models/place.dart';
+import 'package:app_museu_das_mulheres/utils/sign_in_dialog.dart';
+import 'package:app_museu_das_mulheres/widgets/bookmark_icon.dart';
+import 'package:app_museu_das_mulheres/widgets/comment_count.dart';
+import 'package:app_museu_das_mulheres/widgets/custom_cache_image.dart';
+import 'package:app_museu_das_mulheres/widgets/love_count.dart';
+import 'package:app_museu_das_mulheres/widgets/love_icon.dart';
+import 'package:app_museu_das_mulheres/widgets/other_places.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/widgets/todo.dart';
+import 'package:app_museu_das_mulheres/widgets/todo.dart';
 
 import '../widgets/html_body.dart';
 
@@ -22,7 +22,8 @@ class PlaceDetails extends StatefulWidget {
   final Place? data;
   final String? tag;
 
-  const PlaceDetails({Key? key, required this.data, required this.tag}) : super(key: key);
+  const PlaceDetails({Key? key, required this.data, required this.tag})
+      : super(key: key);
 
   @override
   _PlaceDetailsState createState() => _PlaceDetailsState();
@@ -44,7 +45,9 @@ class _PlaceDetailsState extends State<PlaceDetails> {
     if (_guestUser == true) {
       openSignInDialog(context);
     } else {
-      context.read<BookmarkBloc>().onLoveIconClick(collectionName, widget.data!.timestamp);
+      context
+          .read<BookmarkBloc>()
+          .onLoveIconClick(collectionName, widget.data!.timestamp);
     }
   }
 
@@ -53,7 +56,9 @@ class _PlaceDetailsState extends State<PlaceDetails> {
     if (_guestUser == true) {
       openSignInDialog(context);
     } else {
-      context.read<BookmarkBloc>().onBookmarkIconClick(collectionName, widget.data!.timestamp);
+      context
+          .read<BookmarkBloc>()
+          .onBookmarkIconClick(collectionName, widget.data!.timestamp);
     }
   }
 
@@ -80,7 +85,8 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                   left: 15,
                   child: SafeArea(
                     child: CircleAvatar(
-                      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
+                      backgroundColor:
+                          Theme.of(context).primaryColor.withOpacity(0.9),
                       child: IconButton(
                         icon: Icon(
                           LineIcons.arrowLeft,
@@ -96,7 +102,8 @@ class _PlaceDetailsState extends State<PlaceDetails> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 8, left: 20, right: 20),
+              padding: const EdgeInsets.only(
+                  top: 20, bottom: 8, left: 20, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -119,28 +126,43 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                         overflow: TextOverflow.ellipsis,
                       )),
                       IconButton(
-                          icon: BuildLoveIcon(collectionName: collectionName, uid: sb.uid, timestamp: widget.data!.timestamp),
+                          icon: BuildLoveIcon(
+                              collectionName: collectionName,
+                              uid: sb.uid,
+                              timestamp: widget.data!.timestamp),
                           onPressed: () {
                             handleLoveClick();
                           }),
                       IconButton(
-                          icon: BuildBookmarkIcon(collectionName: collectionName, uid: sb.uid, timestamp: widget.data!.timestamp),
+                          icon: BuildBookmarkIcon(
+                              collectionName: collectionName,
+                              uid: sb.uid,
+                              timestamp: widget.data!.timestamp),
                           onPressed: () {
                             handleBookmarkClick();
                           }),
                     ],
                   ),
                   Text(widget.data!.name!,
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, letterSpacing: -0.6, wordSpacing: 1, color: Colors.grey[800])),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: -0.6,
+                          wordSpacing: 1,
+                          color: Colors.grey[800])),
                   Container(
                     margin: EdgeInsets.only(top: 8, bottom: 8),
                     height: 3,
                     width: 150,
-                    decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(40)),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(40)),
                   ),
                   Row(
                     children: <Widget>[
-                      LoveCount(collectionName: collectionName, timestamp: widget.data!.timestamp),
+                      LoveCount(
+                          collectionName: collectionName,
+                          timestamp: widget.data!.timestamp),
                       SizedBox(
                         width: 20,
                       ),
@@ -152,7 +174,9 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                       SizedBox(
                         width: 2,
                       ),
-                      CommentCount(collectionName: collectionName, timestamp: widget.data!.timestamp)
+                      CommentCount(
+                          collectionName: collectionName,
+                          timestamp: widget.data!.timestamp)
                     ],
                   ),
                 ],
@@ -191,11 +215,17 @@ class _PlaceDetailsState extends State<PlaceDetails> {
         decoration: BoxDecoration(
           color: Colors.white,
         ),
-        child: AnotherCarousel(dotBgColor: Colors.transparent, showIndicator: true, dotSize: 5, dotSpacing: 15, boxFit: BoxFit.cover, images: [
-          CustomCacheImage(imageUrl: widget.data!.imageUrl1),
-          CustomCacheImage(imageUrl: widget.data!.imageUrl2),
-          CustomCacheImage(imageUrl: widget.data!.imageUrl3),
-        ]),
+        child: AnotherCarousel(
+            dotBgColor: Colors.transparent,
+            showIndicator: true,
+            dotSize: 5,
+            dotSpacing: 15,
+            boxFit: BoxFit.cover,
+            images: [
+              CustomCacheImage(imageUrl: widget.data!.imageUrl1),
+              CustomCacheImage(imageUrl: widget.data!.imageUrl2),
+              CustomCacheImage(imageUrl: widget.data!.imageUrl3),
+            ]),
       ),
     );
   }

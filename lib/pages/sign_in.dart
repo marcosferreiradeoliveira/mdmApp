@@ -2,19 +2,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/blocs/sign_in_bloc.dart';
-import 'package:travel_hour/config/config.dart';
-import 'package:travel_hour/pages/done.dart';
-import 'package:travel_hour/services/app_service.dart';
-import 'package:travel_hour/utils/next_screen.dart';
-import 'package:travel_hour/utils/snacbar.dart';
+import 'package:app_museu_das_mulheres/blocs/sign_in_bloc.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
+import 'package:app_museu_das_mulheres/pages/done.dart';
+import 'package:app_museu_das_mulheres/services/app_service.dart';
+import 'package:app_museu_das_mulheres/utils/next_screen.dart';
+import 'package:app_museu_das_mulheres/utils/snacbar.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:travel_hour/widgets/language.dart';
-
-
+import 'package:app_museu_das_mulheres/widgets/language.dart';
 
 class SignInPage extends StatefulWidget {
-
   final String? tag;
   SignInPage({Key? key, this.tag}) : super(key: key);
 
@@ -22,166 +19,140 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-
   bool googleSignInStarted = false;
   bool facebookSignInStarted = false;
   bool appleSignInStarted = false;
 
-
-  handleSkip (){
+  handleSkip() {
     final sb = context.read<SignInBloc>();
     sb.setGuestUser();
     nextScreen(context, DonePage());
-    
   }
 
-
-  handleGoogleSignIn() async{
+  handleGoogleSignIn() async {
     final sb = context.read<SignInBloc>();
     setState(() => googleSignInStarted = true);
-    await AppService().checkInternet().then((hasInternet)async{
-      if(hasInternet == false){
+    await AppService().checkInternet().then((hasInternet) async {
+      if (hasInternet == false) {
         openSnacbar(context, 'check your internet connection!'.tr());
-      }else{
-        await sb.signInWithGoogle().then((_){
-        if(sb.hasError == true){
-          openSnacbar(context, 'something is wrong. please try again.'.tr());
-          setState(() =>googleSignInStarted = false);
-
-        }else {
-          sb.checkUserExists().then((value){
-          if(value == true){
-            sb.getUserDatafromFirebase(sb.uid)
-            .then((value) => sb.saveDataToSP()
-            .then((value) => sb.guestSignout())
-            .then((value) => sb.setSignIn()
-            .then((value){
-              setState(() =>googleSignInStarted = false);
-              afterSignIn();
-            })));
-          } else{
-            sb.getJoiningDate()
-            .then((value) => sb.saveToFirebase()
-            .then((value) => sb.increaseUserCount())
-            .then((value) => sb.saveDataToSP()
-            .then((value) => sb.guestSignout()
-            .then((value) => sb.setSignIn()
-            .then((value){
-              setState(() => googleSignInStarted = false);
-              afterSignIn();
-            })))));
-          }
+      } else {
+        await sb.signInWithGoogle().then((_) {
+          if (sb.hasError == true) {
+            openSnacbar(context, 'something is wrong. please try again.'.tr());
+            setState(() => googleSignInStarted = false);
+          } else {
+            sb.checkUserExists().then((value) {
+              if (value == true) {
+                sb.getUserDatafromFirebase(sb.uid).then((value) => sb
+                    .saveDataToSP()
+                    .then((value) => sb.guestSignout())
+                    .then((value) => sb.setSignIn().then((value) {
+                          setState(() => googleSignInStarted = false);
+                          afterSignIn();
+                        })));
+              } else {
+                sb.getJoiningDate().then((value) => sb
+                    .saveToFirebase()
+                    .then((value) => sb.increaseUserCount())
+                    .then((value) => sb.saveDataToSP().then((value) => sb
+                        .guestSignout()
+                        .then((value) => sb.setSignIn().then((value) {
+                              setState(() => googleSignInStarted = false);
+                              afterSignIn();
+                            })))));
+              }
             });
-          
-        }
-      });
+          }
+        });
       }
     });
   }
 
-
-  handleFacebookSignIn() async{
+  handleFacebookSignIn() async {
     final sb = context.read<SignInBloc>();
-    setState(() =>facebookSignInStarted = true);
-    await AppService().checkInternet().then((hasInternet) async{
-      if(hasInternet == false){
+    setState(() => facebookSignInStarted = true);
+    await AppService().checkInternet().then((hasInternet) async {
+      if (hasInternet == false) {
         openSnacbar(context, 'check your internet connection!'.tr());
-      } else{
-        await sb.signInwithFacebook().then((_){
-        if(sb.hasError == true){
-          openSnacbar(context, 'something is wrong. please try again.'.tr());
-          setState(() =>facebookSignInStarted = false);
-
-        }else {
-          sb.checkUserExists().then((value){
-          if(value == true){
-            sb.getUserDatafromFirebase(sb.uid)
-            .then((value) => sb.saveDataToSP()
-            .then((value) => sb.guestSignout())
-            .then((value) => sb.setSignIn()
-            .then((value){
-              setState(() =>facebookSignInStarted = false);
-              afterSignIn();
-            })));
-          } else{
-            sb.getJoiningDate()
-            .then((value) => sb.saveToFirebase()
-            .then((value) => sb.increaseUserCount())
-            .then((value) => sb.saveDataToSP()
-            .then((value) => sb.guestSignout()
-            .then((value) => sb.setSignIn()
-            .then((value){
-              setState(() =>facebookSignInStarted = false);
-              afterSignIn();
-            })))));
-          }
+      } else {
+        await sb.signInwithFacebook().then((_) {
+          if (sb.hasError == true) {
+            openSnacbar(context, 'something is wrong. please try again.'.tr());
+            setState(() => facebookSignInStarted = false);
+          } else {
+            sb.checkUserExists().then((value) {
+              if (value == true) {
+                sb.getUserDatafromFirebase(sb.uid).then((value) => sb
+                    .saveDataToSP()
+                    .then((value) => sb.guestSignout())
+                    .then((value) => sb.setSignIn().then((value) {
+                          setState(() => facebookSignInStarted = false);
+                          afterSignIn();
+                        })));
+              } else {
+                sb.getJoiningDate().then((value) => sb
+                    .saveToFirebase()
+                    .then((value) => sb.increaseUserCount())
+                    .then((value) => sb.saveDataToSP().then((value) => sb
+                        .guestSignout()
+                        .then((value) => sb.setSignIn().then((value) {
+                              setState(() => facebookSignInStarted = false);
+                              afterSignIn();
+                            })))));
+              }
             });
-          
-        }
-      });
+          }
+        });
       }
     });
   }
 
-
-  handleAppleSignIn() async{
+  handleAppleSignIn() async {
     final sb = context.read<SignInBloc>();
     setState(() => appleSignInStarted = true);
-    await AppService().checkInternet().then((hasInternet) async{
-      if(hasInternet == false){
+    await AppService().checkInternet().then((hasInternet) async {
+      if (hasInternet == false) {
         openSnacbar(context, 'check your internet connection!'.tr());
-      }else{
-        await sb.signInWithApple().then((_){
-        if(sb.hasError == true){
-          openSnacbar(context, 'something is wrong. please try again.'.tr());
-          setState(() =>appleSignInStarted = false);
-
-        }else {
-          sb.checkUserExists().then((value){
-          if(value == true){
-            sb.getUserDatafromFirebase(sb.uid)
-            .then((value) => sb.saveDataToSP()
-            .then((value) => sb.guestSignout())
-            .then((value) => sb.setSignIn()
-            .then((value){
-              setState(() =>appleSignInStarted = false);
-              afterSignIn();
-            })));
-          } else{
-            sb.getJoiningDate()
-            .then((value) => sb.saveToFirebase()
-            .then((value) => sb.increaseUserCount())
-            .then((value) => sb.saveDataToSP()
-            .then((value) => sb.guestSignout()
-            .then((value) => sb.setSignIn()
-            .then((value){
-              setState(() =>appleSignInStarted = false);
-              afterSignIn();
-            })))));
-          }
+      } else {
+        await sb.signInWithApple().then((_) {
+          if (sb.hasError == true) {
+            openSnacbar(context, 'something is wrong. please try again.'.tr());
+            setState(() => appleSignInStarted = false);
+          } else {
+            sb.checkUserExists().then((value) {
+              if (value == true) {
+                sb.getUserDatafromFirebase(sb.uid).then((value) => sb
+                    .saveDataToSP()
+                    .then((value) => sb.guestSignout())
+                    .then((value) => sb.setSignIn().then((value) {
+                          setState(() => appleSignInStarted = false);
+                          afterSignIn();
+                        })));
+              } else {
+                sb.getJoiningDate().then((value) => sb
+                    .saveToFirebase()
+                    .then((value) => sb.increaseUserCount())
+                    .then((value) => sb.saveDataToSP().then((value) => sb
+                        .guestSignout()
+                        .then((value) => sb.setSignIn().then((value) {
+                              setState(() => appleSignInStarted = false);
+                              afterSignIn();
+                            })))));
+              }
             });
-          
-        }
-      });
+          }
+        });
       }
     });
   }
 
-
-  afterSignIn (){
-    if(widget.tag == null){
+  afterSignIn() {
+    if (widget.tag == null) {
       nextScreen(context, DonePage());
-    }else{
+    } else {
       Navigator.pop(context);
     }
-    
   }
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -198,13 +169,14 @@ class _SignInPageState extends State<SignInPage> {
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       )).tr()),
-
           IconButton(
             alignment: Alignment.center,
             padding: EdgeInsets.all(0),
             iconSize: 22,
-            icon: Icon(Icons.language,),
-            onPressed: (){
+            icon: Icon(
+              Icons.language,
+            ),
+            onPressed: () {
               nextScreenPopup(context, LanguagePopup());
             },
           ),
@@ -220,18 +192,22 @@ class _SignInPageState extends State<SignInPage> {
                 children: [
                   Text(
                     'welcome to',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.grey[700]),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey[700]),
                   ).tr(),
-                  SizedBox(height: 5,),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Text(
                     '${Config().appName}',
                     style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.grey[700],
-                      letterSpacing: -0.5,
-                      wordSpacing: 1
-                    ),
+                        fontSize: 35,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.grey[700],
+                        letterSpacing: -0.5,
+                        wordSpacing: 1),
                   ),
                 ],
               )),
@@ -272,11 +248,11 @@ class _SignInPageState extends State<SignInPage> {
                     child: TextButton(
                         onPressed: () => handleGoogleSignIn(),
                         style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.resolveWith((states) => Colors.blueAccent),
-                          shape: WidgetStateProperty.resolveWith((states) => RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)
-                          ))
-                        ),
+                            backgroundColor: WidgetStateProperty.resolveWith(
+                                (states) => Colors.blueAccent),
+                            shape: WidgetStateProperty.resolveWith((states) =>
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)))),
                         child: googleSignInStarted == false
                             ? Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -314,11 +290,11 @@ class _SignInPageState extends State<SignInPage> {
                           handleFacebookSignIn();
                         },
                         style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.resolveWith((states) => Colors.indigo),
-                          shape: WidgetStateProperty.resolveWith((states) => RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)
-                          ))
-                        ),
+                            backgroundColor: WidgetStateProperty.resolveWith(
+                                (states) => Colors.indigo),
+                            shape: WidgetStateProperty.resolveWith((states) =>
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)))),
                         child: facebookSignInStarted == false
                             ? Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -358,11 +334,13 @@ class _SignInPageState extends State<SignInPage> {
                                 handleAppleSignIn();
                               },
                               style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.resolveWith((states) => Colors.grey[900]),
-                                shape: WidgetStateProperty.resolveWith((states) => RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)
-                                ))
-                              ),
+                                  backgroundColor:
+                                      WidgetStateProperty.resolveWith(
+                                          (states) => Colors.grey[900]),
+                                  shape: WidgetStateProperty.resolveWith(
+                                      (states) => RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5)))),
                               child: appleSignInStarted == false
                                   ? Row(
                                       crossAxisAlignment:
@@ -398,8 +376,4 @@ class _SignInPageState extends State<SignInPage> {
       ),
     );
   }
-
-
-
-  
 }

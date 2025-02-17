@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:travel_hour/config/ad_config.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
 
 class AdsBloc extends ChangeNotifier {
-
   int _clickCounter = 0;
   int get clickCounter => _clickCounter;
 
@@ -14,61 +13,56 @@ class AdsBloc extends ChangeNotifier {
   bool _isAdLoaded = false;
   bool get isAdLoaded => _isAdLoaded;
 
-
-  Future<bool?> checkAdsEnable () async {
+  Future<bool?> checkAdsEnable() async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    await firestore.collection('admin').doc('ads').get().then((DocumentSnapshot snap) {
+    await firestore
+        .collection('admin')
+        .doc('ads')
+        .get()
+        .then((DocumentSnapshot snap) {
       bool? _enabled = snap['ads_enabled'];
       _adsEnabled = _enabled;
       notifyListeners();
-    }).catchError((e){
+    }).catchError((e) {
       debugPrint('error : $e');
     });
     return _adsEnabled;
   }
 
-
-  void increaseClickCounter(){
-    _clickCounter ++;
+  void increaseClickCounter() {
+    _clickCounter++;
     debugPrint('Clicks : $_clickCounter');
     notifyListeners();
   }
 
-
   //enable only one
-  Future initiateAdsOnApp ()async{
-    await MobileAds.instance.initialize();  //admob
+  Future initiateAdsOnApp() async {
+    await MobileAds.instance.initialize(); //admob
     //await FacebookAudienceNetwork.init();  //fb
   }
 
-
   //enable only one
-  void loadAds (){
-    if(_adsEnabled == true){
-      createInterstitialAdAdmob();  //admob
+  void loadAds() {
+    if (_adsEnabled == true) {
+      createInterstitialAdAdmob(); //admob
       //createInterstitialAdFb();      //fb
     }
   }
 
-
   //enable only one
-  void initiateAds (){
+  void initiateAds() {
     increaseClickCounter();
-    showInterstitialAdAdmob();  //admob
+    showInterstitialAdAdmob(); //admob
     //showInterstitialAdFb();       //fb
   }
-
 
   //enable only one
   @override
   void dispose() {
-    disposeAdmobInterstitial();      //admob
+    disposeAdmobInterstitial(); //admob
     //disposefbInterstitial();      //fb
-    super.dispose();                     
+    super.dispose();
   }
-
-
-
 
   // Admob Ads -- START --
 
@@ -95,30 +89,32 @@ class AdsBloc extends ChangeNotifier {
         ));
   }
 
-
   void showInterstitialAdAdmob() {
-    if(_adsEnabled == true){
-      if(_clickCounter % AdConfig.userClicksAmountsToShowEachAd == 0){
-        if(interstitialAdAdmob != null){
-
-          interstitialAdAdmob!.fullScreenContentCallback = FullScreenContentCallback(
-          onAdShowedFullScreenContent: (InterstitialAd ad) => print('ad onAdShowedFullScreenContent.'),
-          onAdDismissedFullScreenContent: (InterstitialAd ad) {
-            debugPrint('$ad onAdDismissedFullScreenContent.');
-            ad.dispose();
-            interstitialAdAdmob = null;
-            _isAdLoaded = false;
-            notifyListeners();
-            loadAds();
-          },
-          onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-            debugPrint('$ad onAdFailedToShowFullScreenContent: $error');
-            ad.dispose();
-            interstitialAdAdmob = null;
-            _isAdLoaded = false;
-            notifyListeners();
-            loadAds();
-          },);
+    if (_adsEnabled == true) {
+      if (_clickCounter % AdConfig.userClicksAmountsToShowEachAd == 0) {
+        if (interstitialAdAdmob != null) {
+          interstitialAdAdmob!.fullScreenContentCallback =
+              FullScreenContentCallback(
+            onAdShowedFullScreenContent: (InterstitialAd ad) =>
+                print('ad onAdShowedFullScreenContent.'),
+            onAdDismissedFullScreenContent: (InterstitialAd ad) {
+              debugPrint('$ad onAdDismissedFullScreenContent.');
+              ad.dispose();
+              interstitialAdAdmob = null;
+              _isAdLoaded = false;
+              notifyListeners();
+              loadAds();
+            },
+            onAdFailedToShowFullScreenContent:
+                (InterstitialAd ad, AdError error) {
+              debugPrint('$ad onAdFailedToShowFullScreenContent: $error');
+              ad.dispose();
+              interstitialAdAdmob = null;
+              _isAdLoaded = false;
+              notifyListeners();
+              loadAds();
+            },
+          );
 
           interstitialAdAdmob!.show();
           interstitialAdAdmob = null;
@@ -128,19 +124,13 @@ class AdsBloc extends ChangeNotifier {
     }
   }
 
-
-
-  void disposeAdmobInterstitial (){
-    if(_adsEnabled == true){
+  void disposeAdmobInterstitial() {
+    if (_adsEnabled == true) {
       interstitialAdAdmob?.dispose();
     }
   }
 
-
   // Admob Ads -- END --
-
-
-
 
   // Fb Ads -- START --
 
@@ -163,7 +153,6 @@ class AdsBloc extends ChangeNotifier {
   //   );
   // }
 
-
   // void showInterstitialAdFb() async{
   //   if(_adsEnabled == true){
   //     if(_clickCounter % AdConfig.userClicksAmountsToShowEachAd == 0){
@@ -176,8 +165,6 @@ class AdsBloc extends ChangeNotifier {
   //   }
   // }
 
-  
-
   // Future disposefbInterstitial()async {
   //   if (_isAdLoaded == true) {
   //     FacebookInterstitialAd.destroyInterstitialAd();
@@ -186,6 +173,14 @@ class AdsBloc extends ChangeNotifier {
   //   }
   // }
 
-
   // Fb Ads -- END --
+}
+
+class AdConfig {
+  String getAdmobInterstitialAdUnitId() {
+    // Retorne o ID da unidade de anúncio do AdMob
+    return 'your-admob-interstitial-ad-unit-id';
+  }
+
+  static const int userClicksAmountsToShowEachAd = 5;
 }

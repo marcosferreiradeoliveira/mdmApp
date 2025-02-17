@@ -1,8 +1,8 @@
 import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:travel_hour/config/config.dart';
-import 'package:travel_hour/utils/next_screen.dart';
-import 'package:travel_hour/pages/home.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
+import 'package:app_museu_das_mulheres/utils/next_screen.dart';
+import 'package:app_museu_das_mulheres/pages/home.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class IntroPage extends StatefulWidget {
@@ -13,8 +13,6 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
-
-
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -34,9 +32,18 @@ class _IntroPageState extends State<IntroPage> {
               dotSize: 6,
               dotSpacing: 15,
               images: [
-                IntroView(title: 'intro-title1', description: 'intro-description1', image: Config().introImage1),
-                IntroView(title: 'intro-title2', description: 'intro-description2', image: Config().introImage2),
-                IntroView(title: 'intro-title3', description: 'intro-description3', image: Config().introImage3),
+                IntroView(
+                    title: 'intro-title1',
+                    description: 'intro-description1',
+                    image: Config().introImage1),
+                IntroView(
+                    title: 'intro-title2',
+                    description: 'intro-description2',
+                    image: Config().introImage2),
+                IntroView(
+                    title: 'intro-title3',
+                    description: 'intro-description3',
+                    image: Config().introImage3),
               ],
             ),
           ),
@@ -47,14 +54,14 @@ class _IntroPageState extends State<IntroPage> {
             height: 50,
             width: w * 0.70,
             decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(25),
-                ),
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(25),
+            ),
             child: TextButton(
               style: ButtonStyle(
-                shape: WidgetStateProperty.resolveWith((states) => RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)))
-              ),
+                  shape: WidgetStateProperty.resolveWith((states) =>
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25)))),
               child: Text(
                 'get started',
                 style: TextStyle(
@@ -74,20 +81,18 @@ class _IntroPageState extends State<IntroPage> {
       ),
     );
   }
-  
-
-
-  
-
-  
 }
-
 
 class IntroView extends StatelessWidget {
   final String title;
   final String description;
   final String image;
-  const IntroView({Key? key, required this.title, required this.description, required this.image}) : super(key: key);
+  const IntroView(
+      {Key? key,
+      required this.title,
+      required this.description,
+      required this.image})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -110,32 +115,29 @@ class IntroView extends StatelessWidget {
           SizedBox(
             height: 25,
           ),
-          
           Padding(
             padding: const EdgeInsets.only(left: 25, right: 25),
             child: Text(
               title,
               style: TextStyle(
-                fontSize: 22, 
-                fontWeight: FontWeight.w900, 
-                color: Colors.grey[800],
-                letterSpacing: - 0.7,
-                wordSpacing: 1
-              ),
+                  fontSize: 22,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.grey[800],
+                  letterSpacing: -0.7,
+                  wordSpacing: 1),
             ).tr(),
           ),
           Container(
-                    margin: EdgeInsets.only(top: 10, bottom: 10),
-                    height: 3,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(40)),
-                  ),
+            margin: EdgeInsets.only(top: 10, bottom: 10),
+            height: 3,
+            width: 150,
+            decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(40)),
+          ),
           SizedBox(
             height: 15,
           ),
-          
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Text(

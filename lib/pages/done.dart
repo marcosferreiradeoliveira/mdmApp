@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:travel_hour/pages/intro.dart';
-import 'package:travel_hour/utils/next_screen.dart';
+import 'package:app_museu_das_mulheres/pages/intro.dart';
+import 'package:app_museu_das_mulheres/utils/next_screen.dart';
 import 'package:rive/rive.dart';
 
 class DonePage extends StatefulWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:travel_hour/blocs/other_places_bloc.dart';
+import 'package:app_museu_das_mulheres/blocs/other_places_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/pages/place_details.dart';
-import 'package:travel_hour/utils/next_screen.dart';
+import 'package:app_museu_das_mulheres/models/place.dart';
+import 'package:app_museu_das_mulheres/pages/place_details.dart';
+import 'package:app_museu_das_mulheres/utils/next_screen.dart';
 import 'custom_cache_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -29,8 +29,6 @@ class _OtherPlacesState extends State<OtherPlaces> {
   Widget build(BuildContext context) {
     final ob = context.watch<OtherPlacesBloc>();
 
-    
-    
     if (ob.data.isEmpty) return Container();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,8 +90,7 @@ class _ItemList extends StatelessWidget {
           children: [
             ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: CustomCacheImage(imageUrl: d.imageUrl1)
-            ),
+                child: CustomCacheImage(imageUrl: d.imageUrl1)),
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(

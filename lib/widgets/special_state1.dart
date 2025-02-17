@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:travel_hour/blocs/sp_state_one.dart';
-import 'package:travel_hour/models/colors.dart';
-import 'package:travel_hour/config/config.dart';
+import 'package:app_museu_das_mulheres/blocs/sp_state_one.dart';
+import 'package:app_museu_das_mulheres/models/colors.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/pages/state_based_places.dart';
-import 'package:travel_hour/utils/list_card.dart';
-import 'package:travel_hour/utils/next_screen.dart';
+import 'package:app_museu_das_mulheres/pages/state_based_places.dart';
+import 'package:app_museu_das_mulheres/utils/list_card.dart';
+import 'package:app_museu_das_mulheres/utils/next_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class SpecialStateOne extends StatelessWidget {
@@ -30,8 +30,8 @@ class SpecialStateOne extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: Colors.grey[800], 
-                    wordSpacing: 1, 
+                    color: Colors.grey[800],
+                    wordSpacing: 1,
                     letterSpacing: -0.6),
               ).tr(),
               Spacer(),

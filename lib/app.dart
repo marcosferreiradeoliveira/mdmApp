@@ -1,7 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/config/config.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
 import 'blocs/ads_bloc.dart';
 import 'blocs/blog_bloc.dart';
 import 'blocs/bookmark_bloc.dart';

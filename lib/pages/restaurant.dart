@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:http/http.dart' as http;
-import 'package:travel_hour/config/config.dart';
-import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/models/restaurant.dart';
-import 'package:travel_hour/services/map_service.dart';
-import 'package:travel_hour/utils/convert_map_icon.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
+import 'package:app_museu_das_mulheres/models/place.dart';
+import 'package:app_museu_das_mulheres/models/restaurant.dart';
+import 'package:app_museu_das_mulheres/services/map_service.dart';
+import 'package:app_museu_das_mulheres/utils/convert_map_icon.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class RestaurantPage extends StatefulWidget {
@@ -72,8 +72,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
   }
 
   setMarkerIcon() async {
-    _customMarkerIcon =
-        await getBytesFromAsset(Config().restaurantPinIcon, 40);
+    _customMarkerIcon = await getBytesFromAsset(Config().restaurantPinIcon, 40);
   }
 
   _addMarker() {
@@ -114,8 +113,8 @@ class _RestaurantPageState extends State<RestaurantPage> {
 
   _restaurantList(index) {
     final String _photoUrl = _alldata[index].photoReference != null
-      ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${_alldata[index].photoReference}&key=${Config().mapAPIKey}'
-      : Config.emptyImage;
+        ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${_alldata[index].photoReference}&key=${Config().mapAPIKey}'
+        : Config.emptyImage;
     return AnimatedBuilder(
         animation: _pageController!,
         builder: (BuildContext context, Widget? widget) {
@@ -261,11 +260,14 @@ class _RestaurantPageState extends State<RestaurantPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(_alldata[index].name!, style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600
-                        ),),
-                        SizedBox(height: 15,),
+                        Text(
+                          _alldata[index].name!,
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
                         Row(
                           children: <Widget>[
                             Icon(
@@ -343,7 +345,8 @@ class _RestaurantPageState extends State<RestaurantPage> {
                           onPressed: () => MapService.openMap(
                               _alldata[index].lat!,
                               _alldata[index].lng!,
-                              _alldata[index].placeId!, context),
+                              _alldata[index].placeId!,
+                              context),
                         ),
                       ],
                     ),

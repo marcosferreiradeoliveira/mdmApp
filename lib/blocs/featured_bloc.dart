@@ -1,12 +1,9 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:travel_hour/models/place.dart';
+import 'package:app_museu_das_mulheres/models/place.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
 
 class FeaturedBloc with ChangeNotifier {
-
-
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   List<Place> _data = [];
@@ -15,29 +12,27 @@ class FeaturedBloc with ChangeNotifier {
   int _listIndex = 0;
   int get listIndex => _listIndex;
 
-  List featuredList  = [];
+  List featuredList = [];
 
   bool _hasData = true;
   bool get hasData => _hasData;
 
-
-  Future<List> _getFeaturedList ()async{
-    final DocumentReference ref = firestore.collection('featured').doc('featured_list');
-      DocumentSnapshot snap = await ref.get();
-      featuredList = snap['places'] ?? [];
-      if(featuredList.isNotEmpty){
-        List<int> a = featuredList.map((e) => int.parse(e)).toList()..sort();
-        List<String> b = a.take(10).toList().map((e) => e.toString()).toList();
-        return b;
-      }else{
-        return featuredList;
-      }
+  Future<List> _getFeaturedList() async {
+    final DocumentReference ref =
+        firestore.collection('featured').doc('featured_list');
+    DocumentSnapshot snap = await ref.get();
+    featuredList = snap['places'] ?? [];
+    if (featuredList.isNotEmpty) {
+      List<int> a = featuredList.map((e) => int.parse(e)).toList()..sort();
+      List<String> b = a.take(10).toList().map((e) => e.toString()).toList();
+      return b;
+    } else {
+      return featuredList;
+    }
   }
 
-
   Future getData() async {
-    _getFeaturedList()
-    .then((featuredList) async {
+    _getFeaturedList().then((featuredList) async {
       QuerySnapshot rawData;
       rawData = await firestore
           .collection('places')
@@ -48,22 +43,20 @@ class FeaturedBloc with ChangeNotifier {
       List<DocumentSnapshot> _snap = [];
       _snap.addAll(rawData.docs);
       _data = _snap.map((e) => Place.fromFirestore(e)).toList();
-      _data.sort((a,b) => b.timestamp!.compareTo(a.timestamp!));
-      if(_data.isEmpty){
+      _data.sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
+      if (_data.isEmpty) {
         _hasData = false;
-      }else{
+      } else {
         _hasData = true;
       }
       notifyListeners();
-    }).onError((error, stackTrace){
+    }).onError((error, stackTrace) {
       _hasData = false;
       notifyListeners();
     });
-    
   }
 
-
-  onRefresh (){
+  onRefresh() {
     featuredList.clear();
     _data.clear();
     setListIndex(0);
@@ -72,15 +65,8 @@ class FeaturedBloc with ChangeNotifier {
     notifyListeners();
   }
 
-
-  setListIndex (int newIndex){
+  setListIndex(int newIndex) {
     _listIndex = newIndex;
     notifyListeners();
   }
-
-
-
-
-
-
 }

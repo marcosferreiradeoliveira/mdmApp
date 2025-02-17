@@ -7,8 +7,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:travel_hour/app.dart';
-import 'package:travel_hour/home_page.dart'; // Adicione esta linha
+import 'package:app_museu_das_mulheres/app.dart';
+import 'package:app_museu_das_mulheres/home_page.dart'; // Adicione esta linha
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

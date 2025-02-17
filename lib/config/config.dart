@@ -17,7 +17,7 @@ class Config {
       'https://www.youtube.com/channel/UC019xJZYMtpOGt8GLDBY5Hg';
 
   // app theme color - primary color
-  static final Color appThemeColor = Colors.blueAccent;
+  static final Color appThemeColor = Colors.blue;
 
   //special two states name that has been already upload from the admin panel
   final String specialState1 = 'Sylhet';

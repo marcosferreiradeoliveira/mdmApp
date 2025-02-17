@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
-import 'package:travel_hour/blocs/bookmark_bloc.dart';
-import 'package:travel_hour/blocs/sign_in_bloc.dart';
+import 'package:app_museu_das_mulheres/blocs/bookmark_bloc.dart';
+import 'package:app_museu_das_mulheres/blocs/sign_in_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/models/blog.dart';
-import 'package:travel_hour/pages/blog_details.dart';
-import 'package:travel_hour/utils/empty.dart';
-import 'package:travel_hour/utils/list_card.dart';
-import 'package:travel_hour/utils/next_screen.dart';
-import 'package:travel_hour/widgets/custom_cache_image.dart';
-import 'package:travel_hour/utils/loading_cards.dart';
+import 'package:app_museu_das_mulheres/models/blog.dart';
+import 'package:app_museu_das_mulheres/pages/blog_details.dart';
+import 'package:app_museu_das_mulheres/utils/empty.dart';
+import 'package:app_museu_das_mulheres/utils/list_card.dart';
+import 'package:app_museu_das_mulheres/utils/next_screen.dart';
+import 'package:app_museu_das_mulheres/widgets/custom_cache_image.dart';
+import 'package:app_museu_das_mulheres/utils/loading_cards.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class BookmarkPage extends StatefulWidget {
@@ -21,7 +21,8 @@ class BookmarkPage extends StatefulWidget {
   _BookmarkPageState createState() => _BookmarkPageState();
 }
 
-class _BookmarkPageState extends State<BookmarkPage> with AutomaticKeepAliveClientMixin {
+class _BookmarkPageState extends State<BookmarkPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -46,10 +47,9 @@ class _BookmarkPageState extends State<BookmarkPage> with AutomaticKeepAliveClie
               indicatorWeight: 0,
               indicatorSize: TabBarIndicatorSize.tab,
               labelStyle: TextStyle(
-                fontFamily: 'Manrope',
-                fontSize: 15,
-                fontWeight: FontWeight.w600
-              ),
+                  fontFamily: 'Manrope',
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600),
               indicator: MD2Indicator(
                 indicatorHeight: 3,
                 indicatorSize: MD2IndicatorSize.normal,
@@ -75,14 +75,14 @@ class _BookmarkPageState extends State<BookmarkPage> with AutomaticKeepAliveClie
         body: TabBarView(children: <Widget>[
           sb.guestUser == true
               ? EmptyPage(
-                  icon: Feather.user_plus, 
+                  icon: Feather.user_plus,
                   message: 'sign in first'.tr(),
                   message1: "sign in to save your favourite places here".tr(),
                 )
               : BookmarkedPlaces(),
           sb.guestUser == true
               ? EmptyPage(
-                  icon: Feather.user_plus, 
+                  icon: Feather.user_plus,
                   message: 'sign in first'.tr(),
                   message1: "sign in to save your favourite blogs here".tr(),
                 )
@@ -96,12 +96,6 @@ class _BookmarkPageState extends State<BookmarkPage> with AutomaticKeepAliveClie
   bool get wantKeepAlive => true;
 }
 
-
-
-
-
-
-
 class BookmarkedPlaces extends StatefulWidget {
   const BookmarkedPlaces({Key? key}) : super(key: key);
 
@@ -109,8 +103,8 @@ class BookmarkedPlaces extends StatefulWidget {
   _BookmarkedPlacesState createState() => _BookmarkedPlacesState();
 }
 
-class _BookmarkedPlacesState extends State<BookmarkedPlaces> with AutomaticKeepAliveClientMixin {
-
+class _BookmarkedPlacesState extends State<BookmarkedPlaces>
+    with AutomaticKeepAliveClientMixin {
   final String collectionName = 'hotels';
   final String type = 'bookmarked_hotels';
 
@@ -136,18 +130,23 @@ class _BookmarkedPlacesState extends State<BookmarkedPlaces> with AutomaticKeepA
                   height: 5,
                 ),
                 itemBuilder: (BuildContext context, int index) {
-                  return ListCard(d: snapshot.data[index],tag: "bookmark$index", color: Colors.white,);
-                  
+                  return ListCard(
+                    d: snapshot.data[index],
+                    tag: "bookmark$index",
+                    color: Colors.white,
+                  );
                 },
               );
           }
           return ListView.separated(
             padding: EdgeInsets.all(15),
             itemCount: 5,
-            separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10,),
+            separatorBuilder: (BuildContext context, int index) => SizedBox(
+              height: 10,
+            ),
             itemBuilder: (BuildContext context, int index) {
-            return LoadingCard(height: 150);
-           },
+              return LoadingCard(height: 150);
+            },
           );
         },
       ),
@@ -158,12 +157,6 @@ class _BookmarkedPlacesState extends State<BookmarkedPlaces> with AutomaticKeepA
   bool get wantKeepAlive => true;
 }
 
-
-
-
-
-
-
 class BookmarkedBlogs extends StatefulWidget {
   const BookmarkedBlogs({Key? key}) : super(key: key);
 
@@ -171,8 +164,8 @@ class BookmarkedBlogs extends StatefulWidget {
   _BookmarkedBlogsState createState() => _BookmarkedBlogsState();
 }
 
-class _BookmarkedBlogsState extends State<BookmarkedBlogs>  with AutomaticKeepAliveClientMixin {
-
+class _BookmarkedBlogsState extends State<BookmarkedBlogs>
+    with AutomaticKeepAliveClientMixin {
   final String collectionName = 'blogs';
   final String type = 'bookmarked_blogs';
 
@@ -190,7 +183,8 @@ class _BookmarkedBlogsState extends State<BookmarkedBlogs>  with AutomaticKeepAl
                 message: 'no blogs found'.tr(),
                 message1: 'save your favourite blogs here'.tr(),
               );
-            else return ListView.separated(
+            else
+              return ListView.separated(
                 padding: EdgeInsets.all(15),
                 itemCount: snapshot.data.length,
                 separatorBuilder: (context, index) => SizedBox(
@@ -204,10 +198,12 @@ class _BookmarkedBlogsState extends State<BookmarkedBlogs>  with AutomaticKeepAl
           return ListView.separated(
             padding: EdgeInsets.all(15),
             itemCount: 5,
-            separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10,),
+            separatorBuilder: (BuildContext context, int index) => SizedBox(
+              height: 10,
+            ),
             itemBuilder: (BuildContext context, int index) {
-            return LoadingCard(height: 120);
-           },
+              return LoadingCard(height: 120);
+            },
           );
         },
       ),
@@ -217,11 +213,6 @@ class _BookmarkedBlogsState extends State<BookmarkedBlogs>  with AutomaticKeepAl
   @override
   bool get wantKeepAlive => true;
 }
-
-
-
-
-
 
 class _BlogList extends StatelessWidget {
   final Blog? data;
@@ -234,10 +225,7 @@ class _BlogList extends StatelessWidget {
         height: 120,
         width: double.infinity,
         decoration: BoxDecoration(
-
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(3)
-        ),
+            color: Colors.white, borderRadius: BorderRadius.circular(3)),
         child: Row(
           children: [
             ClipRRect(
@@ -251,7 +239,8 @@ class _BlogList extends StatelessWidget {
             ),
             Flexible(
               child: Container(
-                margin: EdgeInsets.only(left: 15, top: 15, right: 10, bottom: 10),
+                margin:
+                    EdgeInsets.only(left: 15, top: 15, right: 10, bottom: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -301,7 +290,8 @@ class _BlogList extends StatelessWidget {
         ),
       ),
       onTap: () {
-        nextScreen(context, BlogDetails(blogData: data, tag: 'bookmark${data!.timestamp}'));
+        nextScreen(context,
+            BlogDetails(blogData: data, tag: 'bookmark${data!.timestamp}'));
       },
     );
   }

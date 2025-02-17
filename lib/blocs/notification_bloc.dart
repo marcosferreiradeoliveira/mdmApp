@@ -1,17 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
 
 import '../models/notification.dart';
 import '../services/notification_service.dart';
 import '../services/sp_service.dart';
 import '../utils/notification_permission_dialog.dart';
 
-
-
-
 class NotificationBloc extends ChangeNotifier {
-
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   DocumentSnapshot? _lastVisible;
@@ -30,9 +27,6 @@ class NotificationBloc extends ChangeNotifier {
 
   bool _subscribed = false;
   bool get subscribed => _subscribed;
-
-
-
 
   Future<Null> getData(mounted) async {
     _hasData = true;
@@ -59,13 +53,11 @@ class NotificationBloc extends ChangeNotifier {
         _data = _snap.map((e) => NotificationModel.fromFirestore(e)).toList();
       }
     } else {
-      if(_lastVisible == null){
-
+      if (_lastVisible == null) {
         _isLoading = false;
         _hasData = false;
         debugPrint('no items');
-
-      }else{
+      } else {
         _isLoading = false;
         _hasData = true;
         debugPrint('no more items');
@@ -81,9 +73,6 @@ class NotificationBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
-
   onRefresh(mounted) {
     _isLoading = true;
     _snap.clear();
@@ -92,8 +81,6 @@ class NotificationBloc extends ChangeNotifier {
     getData(mounted);
     notifyListeners();
   }
-
-  
 
   onReload(mounted) {
     _isLoading = true;
@@ -104,11 +91,13 @@ class NotificationBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future checkPermission ()async{
-    await NotificationService().checkingPermisson().then((bool? accepted)async{
-      if(accepted != null && accepted){
+  Future checkPermission() async {
+    await NotificationService()
+        .checkingPermisson()
+        .then((bool? accepted) async {
+      if (accepted != null && accepted) {
         checkSubscription();
-      }else{
+      } else {
         await SPService().setNotificationSubscription(false);
         _subscribed = false;
         notifyListeners();
@@ -116,12 +105,12 @@ class NotificationBloc extends ChangeNotifier {
     });
   }
 
-  Future checkSubscription ()async{
-    await SPService().getNotificationSubscription().then((bool value)async{
-      if(value){
+  Future checkSubscription() async {
+    await SPService().getNotificationSubscription().then((bool value) async {
+      if (value) {
         await NotificationService().subscribe();
         _subscribed = true;
-      }else{
+      } else {
         await NotificationService().unsubscribe();
         _subscribed = false;
       }
@@ -129,20 +118,22 @@ class NotificationBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  handleSubscription (context, bool newValue) async{
-    if(newValue){
-      await NotificationService().checkingPermisson().then((bool? accepted)async{
-        if(accepted != null && accepted){
+  handleSubscription(context, bool newValue) async {
+    if (newValue) {
+      await NotificationService()
+          .checkingPermisson()
+          .then((bool? accepted) async {
+        if (accepted != null && accepted) {
           await NotificationService().subscribe();
           await SPService().setNotificationSubscription(newValue);
           _subscribed = true;
           Fluttertoast.showToast(msg: 'Notification turned On');
           notifyListeners();
-        }else{
+        } else {
           openNotificationPermissionDialog(context);
         }
       });
-    }else{
+    } else {
       await NotificationService().unsubscribe();
       await SPService().setNotificationSubscription(newValue);
       _subscribed = newValue;
@@ -150,9 +141,4 @@ class NotificationBloc extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-
-
-
-  
 }

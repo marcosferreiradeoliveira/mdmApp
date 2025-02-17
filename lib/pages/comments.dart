@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/blocs/comments_bloc.dart';
-import 'package:travel_hour/blocs/sign_in_bloc.dart';
-import 'package:travel_hour/models/comment.dart';
-import 'package:travel_hour/services/app_service.dart';
-import 'package:travel_hour/utils/dialog.dart';
-import 'package:travel_hour/utils/empty.dart';
-import 'package:travel_hour/utils/loading_cards.dart';
-import 'package:travel_hour/utils/sign_in_dialog.dart';
-import 'package:travel_hour/utils/toast.dart';
+import 'package:app_museu_das_mulheres/blocs/comments_bloc.dart';
+import 'package:app_museu_das_mulheres/blocs/sign_in_bloc.dart';
+import 'package:app_museu_das_mulheres/models/comment.dart';
+import 'package:app_museu_das_mulheres/services/app_service.dart';
+import 'package:app_museu_das_mulheres/utils/dialog.dart';
+import 'package:app_museu_das_mulheres/utils/empty.dart';
+import 'package:app_museu_das_mulheres/utils/loading_cards.dart';
+import 'package:app_museu_das_mulheres/utils/sign_in_dialog.dart';
+import 'package:app_museu_das_mulheres/utils/toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class CommentsPage extends StatefulWidget {
@@ -107,8 +107,6 @@ class _CommentsPageState extends State<CommentsPage> {
     }
   }
 
-
-
   openPopupDialog(Comment d) {
     final SignInBloc sb = Provider.of<SignInBloc>(context, listen: false);
 
@@ -118,110 +116,104 @@ class _CommentsPageState extends State<CommentsPage> {
           return SimpleDialog(
             contentPadding: EdgeInsets.all(20),
             children: [
-              
               context.watch<CommentsBloc>().flagList.contains(d.timestamp)
-              ? Container()
-              : ListTile(
-                
-                title: Text('flag this comment').tr(),
-                leading: Icon(Icons.flag),
-                onTap: ()async{
-                  await context.read<CommentsBloc>().addToFlagList(context, d.timestamp)
-                  .then((value) => onRefreshData());
-                  Navigator.pop(context);
-                },
-              ),
+                  ? Container()
+                  : ListTile(
+                      title: Text('flag this comment').tr(),
+                      leading: Icon(Icons.flag),
+                      onTap: () async {
+                        await context
+                            .read<CommentsBloc>()
+                            .addToFlagList(context, d.timestamp)
+                            .then((value) => onRefreshData());
+                        Navigator.pop(context);
+                      },
+                    ),
               context.watch<CommentsBloc>().flagList.contains(d.timestamp)
-              ? ListTile(
-                title: Text('unflag this comment').tr(),
-                leading: Icon(Icons.flag_outlined),
-                onTap: ()async{
-                  await context.read<CommentsBloc>().removeFromFlagList(context, d.timestamp)
-                  .then((value) => onRefreshData());
-                  Navigator.pop(context);
-                },
-              )
-              : Container(),
-
-
+                  ? ListTile(
+                      title: Text('unflag this comment').tr(),
+                      leading: Icon(Icons.flag_outlined),
+                      onTap: () async {
+                        await context
+                            .read<CommentsBloc>()
+                            .removeFromFlagList(context, d.timestamp)
+                            .then((value) => onRefreshData());
+                        Navigator.pop(context);
+                      },
+                    )
+                  : Container(),
               ListTile(
                 title: Text('report').tr(),
                 leading: Icon(Icons.report),
-                onTap: (){
+                onTap: () {
                   handleReport(d);
                 },
               ),
-              sb.uid == d.uid ?
-              ListTile(
-                title: Text('delete').tr(),
-                leading: Icon(Icons.delete),
-                onTap: () => handleDelete1(d),
-              )
-              : Container()
+              sb.uid == d.uid
+                  ? ListTile(
+                      title: Text('delete').tr(),
+                      leading: Icon(Icons.delete),
+                      onTap: () => handleDelete1(d),
+                    )
+                  : Container()
             ],
           );
         });
   }
 
-
-  Future handleReport (Comment d)async{
+  Future handleReport(Comment d) async {
     final SignInBloc sb = Provider.of<SignInBloc>(context, listen: false);
-    if(sb.isSignedIn == true){
-      await context.read<CommentsBloc>().reportComment(widget.collectionName, widget.timestamp, d.uid, d.timestamp);
+    if (sb.isSignedIn == true) {
+      await context.read<CommentsBloc>().reportComment(
+          widget.collectionName, widget.timestamp, d.uid, d.timestamp);
       Navigator.pop(context);
       openDialog(context, 'report-info'.tr(), "report-info1".tr());
-
-    }else{
+    } else {
       Navigator.pop(context);
       openDialog(context, 'report-guest'.tr(), 'report-guest1'.tr());
     }
   }
 
-
-
   Future handleDelete1(Comment d) async {
     final SignInBloc sb = Provider.of<SignInBloc>(context, listen: false);
-    await AppService().checkInternet().then((hasInternet)async{
-      if(hasInternet == false){
+    await AppService().checkInternet().then((hasInternet) async {
+      if (hasInternet == false) {
         Navigator.pop(context);
         openToast(context, 'no internet'.tr());
-      }else{
-        await context.read<CommentsBloc>().deleteComment(widget.collectionName, widget.timestamp, sb.uid, d.timestamp)
-        .then((value) => openToast(context, 'Deleted Successfully!'));
+      } else {
+        await context
+            .read<CommentsBloc>()
+            .deleteComment(
+                widget.collectionName, widget.timestamp, sb.uid, d.timestamp)
+            .then((value) => openToast(context, 'Deleted Successfully!'));
         onRefreshData();
         Navigator.pop(context);
       }
     });
   }
 
-
-
-
-  
-
   Future handleSubmit() async {
     final SignInBloc sb = context.read<SignInBloc>();
     if (sb.guestUser == true) {
       openSignInDialog(context);
-    }else{
+    } else {
       if (textCtrl.text.isEmpty) {
         debugPrint('Comment is empty');
       } else {
-        await AppService().checkInternet().then((hasInternet){
-          if(hasInternet == false){
+        await AppService().checkInternet().then((hasInternet) {
+          if (hasInternet == false) {
             openToast(context, 'no internet'.tr());
-          }else{
-            context.read<CommentsBloc>().saveNewComment(widget.collectionName, widget.timestamp, textCtrl.text);
+          } else {
+            context.read<CommentsBloc>().saveNewComment(
+                widget.collectionName, widget.timestamp, textCtrl.text);
             onRefreshData();
             textCtrl.clear();
             FocusScope.of(context).requestFocus(new FocusNode());
           }
         });
-      }  
+      }
     }
   }
-
-
 
   onRefreshData() {
     setState(() {
@@ -233,20 +225,22 @@ class _CommentsPageState extends State<CommentsPage> {
     _getData();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(widget.collectionName == 'places' ? 'user reviews' : 'comments').tr(),
+        title: Text(
+                widget.collectionName == 'places' ? 'user reviews' : 'comments')
+            .tr(),
         titleSpacing: 0,
         actions: [
           IconButton(
-            icon: Icon(Feather.rotate_cw,size: 22,),
-            onPressed: () => onRefreshData())
+              icon: Icon(
+                Feather.rotate_cw,
+                size: 22,
+              ),
+              onPressed: () => onRefreshData())
         ],
       ),
       body: Column(
@@ -339,8 +333,6 @@ class _CommentsPageState extends State<CommentsPage> {
     );
   }
 
-
-
   Widget reviewList(Comment d) {
     return Container(
         padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -374,20 +366,18 @@ class _CommentsPageState extends State<CommentsPage> {
                       fontWeight: FontWeight.w500)),
             ],
           ),
-          subtitle: context.read<CommentsBloc>().flagList.contains(d.timestamp) 
-
-            ? Text('comment flagged').tr()
-            : Text(
-            d.comment!,
-            style: TextStyle(
-                fontSize: 15,
-                color: Colors.black54,
-                fontWeight: FontWeight.w500),
-          ),
+          subtitle: context.read<CommentsBloc>().flagList.contains(d.timestamp)
+              ? Text('comment flagged').tr()
+              : Text(
+                  d.comment!,
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w500),
+                ),
           onLongPress: () {
             openPopupDialog(d);
           },
         ));
   }
-
 }

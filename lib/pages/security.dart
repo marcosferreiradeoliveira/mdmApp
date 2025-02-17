@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/pages/sign_in.dart';
+import 'package:app_museu_das_mulheres/pages/sign_in.dart';
 
 import '../blocs/sign_in_bloc.dart';
 import '../utils/next_screen.dart';
@@ -15,9 +15,7 @@ class SecurityPage extends StatefulWidget {
 }
 
 class _SecurityPageState extends State<SecurityPage> {
-
   bool _isLoading = false;
-
 
   _openDeleteDialog() {
     return showDialog(
@@ -45,17 +43,18 @@ class _SecurityPageState extends State<SecurityPage> {
         });
   }
 
-
-  _handleDeleteAccount () async{
-    setState(()=> _isLoading = true);
-    await context.read<SignInBloc>().deleteUserDatafromDatabase()
-    .then((_) async => await context.read<SignInBloc>().userSignout())
-    .then((_) => context.read<SignInBloc>().afterUserSignOut()).then((_){
-      setState(()=> _isLoading = false);
+  _handleDeleteAccount() async {
+    setState(() => _isLoading = true);
+    await context
+        .read<SignInBloc>()
+        .deleteUserDatafromDatabase()
+        .then((_) async => await context.read<SignInBloc>().userSignout())
+        .then((_) => context.read<SignInBloc>().afterUserSignOut())
+        .then((_) {
+      setState(() => _isLoading = false);
       Future.delayed(Duration(seconds: 1))
-      .then((value) => nextScreenCloseOthers(context, SignInPage()));
+          .then((value) => nextScreenCloseOthers(context, SignInPage()));
     });
-
   }
 
   @override
@@ -71,18 +70,18 @@ class _SecurityPageState extends State<SecurityPage> {
             children: [
               ListTile(
                 title: Text('delete-user-data').tr(),
-                leading: Icon(Feather.trash, size: 20,),
+                leading: Icon(
+                  Feather.trash,
+                  size: 20,
+                ),
                 onTap: _openDeleteDialog,
-                
               ),
             ],
           ),
-
           Align(
-            child: _isLoading == true ? CircularProgressIndicator() : Container(),
+            child:
+                _isLoading == true ? CircularProgressIndicator() : Container(),
           )
-
-          
         ],
       ),
     );

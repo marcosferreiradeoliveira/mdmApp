@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/blocs/featured_bloc.dart';
-import 'package:travel_hour/blocs/popular_places_bloc.dart';
-import 'package:travel_hour/blocs/recent_places_bloc.dart';
-import 'package:travel_hour/blocs/recommanded_places_bloc.dart';
-import 'package:travel_hour/blocs/sign_in_bloc.dart';
-import 'package:travel_hour/blocs/sp_state_one.dart';
-import 'package:travel_hour/blocs/sp_state_two.dart';
+import 'package:app_museu_das_mulheres/blocs/featured_bloc.dart';
+import 'package:app_museu_das_mulheres/blocs/popular_places_bloc.dart';
+import 'package:app_museu_das_mulheres/blocs/recent_places_bloc.dart';
+import 'package:app_museu_das_mulheres/blocs/recommanded_places_bloc.dart';
+import 'package:app_museu_das_mulheres/blocs/sign_in_bloc.dart';
+import 'package:app_museu_das_mulheres/blocs/sp_state_one.dart';
+import 'package:app_museu_das_mulheres/blocs/sp_state_two.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:travel_hour/config/config.dart';
-import 'package:travel_hour/pages/profile.dart';
-import 'package:travel_hour/pages/search.dart';
-import 'package:travel_hour/utils/next_screen.dart';
-import 'package:travel_hour/widgets/featured_places.dart';
-import 'package:travel_hour/widgets/popular_places.dart';
-import 'package:travel_hour/widgets/recent_places.dart';
-import 'package:travel_hour/widgets/recommended_places.dart';
-import 'package:travel_hour/widgets/special_state1.dart';
-import 'package:travel_hour/widgets/special_state2.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
+import 'package:app_museu_das_mulheres/pages/profile.dart';
+import 'package:app_museu_das_mulheres/pages/search.dart';
+import 'package:app_museu_das_mulheres/utils/next_screen.dart';
+import 'package:app_museu_das_mulheres/widgets/featured_places.dart';
+import 'package:app_museu_das_mulheres/widgets/popular_places.dart';
+import 'package:app_museu_das_mulheres/widgets/recent_places.dart';
+import 'package:app_museu_das_mulheres/widgets/recommended_places.dart';
+import 'package:app_museu_das_mulheres/widgets/special_state1.dart';
+import 'package:app_museu_das_mulheres/widgets/special_state2.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class Explore extends StatefulWidget {
@@ -28,32 +28,26 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
-
   @override
   void initState() {
     super.initState();
     reloadData();
-    
   }
 
-
-
-
-  Future reloadData () async {
-    Future.delayed(Duration(milliseconds: 0)).then((_) async{
-
-      await context.read<FeaturedBloc>().getData()
-      .then((value) => context.read<PopularPlacesBloc>().getData())
-      .then((value) => context.read<RecentPlacesBloc>().getData())
-      .then((value) => context.read<SpecialStateOneBloc>().getData())
-      .then((value) => context.read<SpecialStateTwoBloc>().getData())
-      .then((value) => context.read<RecommandedPlacesBloc>().getData());
-      
-      });
+  Future reloadData() async {
+    Future.delayed(Duration(milliseconds: 0)).then((_) async {
+      await context
+          .read<FeaturedBloc>()
+          .getData()
+          .then((value) => context.read<PopularPlacesBloc>().getData())
+          .then((value) => context.read<RecentPlacesBloc>().getData())
+          .then((value) => context.read<SpecialStateOneBloc>().getData())
+          .then((value) => context.read<SpecialStateTwoBloc>().getData())
+          .then((value) => context.read<RecommandedPlacesBloc>().getData());
+    });
   }
 
-
-  Future _onRefresh () async {
+  Future _onRefresh() async {
     context.read<FeaturedBloc>().onRefresh();
     context.read<PopularPlacesBloc>().onRefresh(mounted);
     context.read<RecentPlacesBloc>().onRefresh(mounted);
@@ -62,41 +56,34 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
     context.read<RecommandedPlacesBloc>().onRefresh(mounted);
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
         backgroundColor: Colors.white,
-          body: SafeArea(
-              child: RefreshIndicator(
-              onRefresh: () async => _onRefresh(),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Header(),
-                    Featured(),
-                    PopularPlaces(),
-                    RecentPlaces(),
-                    SpecialStateOne(),
-                    SpecialStateTwo(),
-                    RecommendedPlaces()
-                  ],
-                ),
+        body: SafeArea(
+          child: RefreshIndicator(
+            onRefresh: () async => _onRefresh(),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Header(),
+                  Featured(),
+                  PopularPlaces(),
+                  RecentPlaces(),
+                  SpecialStateOne(),
+                  SpecialStateTwo(),
+                  RecommendedPlaces()
+                ],
               ),
             ),
-          )
-    );
+          ),
+        ));
   }
 
   @override
   bool get wantKeepAlive => true;
 }
-
-
-
 
 class Header extends StatelessWidget {
   const Header({Key? key}) : super(key: key);
@@ -152,7 +139,8 @@ class Header extends StatelessWidget {
                               color: Colors.grey[300],
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                  image: CachedNetworkImageProvider(sb.imageUrl!),
+                                  image:
+                                      CachedNetworkImageProvider(sb.imageUrl!),
                                   fit: BoxFit.cover)),
                         ),
                   onTap: () {
@@ -191,7 +179,10 @@ class Header extends StatelessWidget {
                     ),
                     Text(
                       'search places',
-                      style: TextStyle(fontSize: 15, color: Colors.blueGrey[700], fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.blueGrey[700],
+                          fontWeight: FontWeight.w500),
                     ).tr(),
                   ],
                 ),
@@ -207,4 +198,3 @@ class Header extends StatelessWidget {
     );
   }
 }
-

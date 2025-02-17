@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:travel_hour/config/config.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
 
 class LanguagePopup extends StatefulWidget {
   const LanguagePopup({Key? key}) : super(key: key);
@@ -33,7 +33,9 @@ class _LanguagePopupState extends State<LanguagePopup> {
       children: [
         ListTile(
           leading: Icon(LineIcons.language),
-          title: Text(d,),
+          title: Text(
+            d,
+          ),
           onTap: () async {
             if (d == 'English') {
               context.setLocale(Locale('en'));
@@ -48,7 +50,10 @@ class _LanguagePopupState extends State<LanguagePopup> {
             Navigator.pop(context);
           },
         ),
-        Divider(height: 5, color: Colors.grey[400],)
+        Divider(
+          height: 5,
+          color: Colors.grey[400],
+        )
       ],
     );
   }

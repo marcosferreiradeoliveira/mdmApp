@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/blocs/search_bloc.dart';
-import 'package:travel_hour/utils/empty.dart';
-import 'package:travel_hour/utils/list_card.dart';
-import 'package:travel_hour/utils/loading_cards.dart';
-import 'package:travel_hour/utils/snacbar.dart';
+import 'package:app_museu_das_mulheres/blocs/search_bloc.dart';
+import 'package:app_museu_das_mulheres/utils/empty.dart';
+import 'package:app_museu_das_mulheres/utils/list_card.dart';
+import 'package:app_museu_das_mulheres/utils/loading_cards.dart';
+import 'package:app_museu_das_mulheres/utils/snacbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class SearchPage extends StatefulWidget {
@@ -20,7 +20,8 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   void initState() {
-    Future.delayed(Duration()).then((value) => context.read<SearchBloc>().saerchInitialize());
+    Future.delayed(Duration())
+        .then((value) => context.read<SearchBloc>().saerchInitialize());
     super.initState();
   }
 
@@ -33,28 +34,28 @@ class _SearchPageState extends State<SearchPage> {
         automaticallyImplyLeading: true,
       ),
       body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // suggestion text
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          // suggestion text
 
-            Padding(
-              padding: const EdgeInsets.only(top: 15, left: 15, bottom: 5),
-              child: Text(
-                context.watch<SearchBloc>().searchStarted == false
-                    ? 'recent searchs'
-                    : 'we have found',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700),
-              ).tr(),
-            ),
-            context.watch<SearchBloc>().searchStarted == false
-                ? SuggestionsUI()
-                : AfterSearchUI()
-          ],
-        ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15, left: 15, bottom: 5),
+            child: Text(
+              context.watch<SearchBloc>().searchStarted == false
+                  ? 'recent searchs'
+                  : 'we have found',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  color: Colors.grey[800],
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700),
+            ).tr(),
+          ),
+          context.watch<SearchBloc>().searchStarted == false
+              ? SuggestionsUI()
+              : AfterSearchUI()
+        ],
+      ),
     );
   }
 
@@ -65,7 +66,8 @@ class _SearchPageState extends State<SearchPage> {
       child: TextFormField(
         autofocus: true,
         controller: context.watch<SearchBloc>().textfieldCtrl,
-        style: TextStyle(fontSize: 16, color: Colors.grey[800], fontWeight: FontWeight.w500),
+        style: TextStyle(
+            fontSize: 16, color: Colors.grey[800], fontWeight: FontWeight.w500),
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: "search & explore".tr(),

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/blocs/sign_in_bloc.dart';
-import 'package:travel_hour/config/config.dart';
-import 'package:travel_hour/pages/sign_in.dart';
-import 'package:travel_hour/pages/home.dart';
-import 'package:travel_hour/utils/next_screen.dart';
-
+import 'package:app_museu_das_mulheres/blocs/sign_in_bloc.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
+import 'package:app_museu_das_mulheres/pages/sign_in.dart';
+import 'package:app_museu_das_mulheres/pages/home.dart';
+import 'package:app_museu_das_mulheres/utils/next_screen.dart';
 
 class SplashPage extends StatefulWidget {
   SplashPage({Key? key}) : super(key: key);
@@ -13,42 +12,29 @@ class SplashPage extends StatefulWidget {
   _SplashPageState createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
-
+class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   late AnimationController _controller;
 
-
-
-  afterSplash(){
+  afterSplash() {
     final SignInBloc sb = context.read<SignInBloc>();
-    Future.delayed(Duration(milliseconds: 1200)).then((value){
-      sb.isSignedIn == true || sb.guestUser == true 
-      ? gotoHomePage()
-      : gotoSignInPage();
-      
+    Future.delayed(Duration(milliseconds: 1200)).then((value) {
+      sb.isSignedIn == true || sb.guestUser == true
+          ? gotoHomePage()
+          : gotoSignInPage();
     });
   }
 
-
-  gotoHomePage () {
+  gotoHomePage() {
     final SignInBloc sb = context.read<SignInBloc>();
-    if(sb.isSignedIn == true){ 
+    if (sb.isSignedIn == true) {
       sb.getDataFromSp();
     }
     nextScreenReplace(context, HomePage());
   }
 
-
-
-
-  gotoSignInPage (){
+  gotoSignInPage() {
     nextScreenReplace(context, SignInPage());
   }
-
-
-
-
-  
 
   @override
   void initState() {
@@ -61,39 +47,24 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
     afterSplash();
   }
 
-
-
-
-
-
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
-
-
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
       child: RotationTransition(
-
-              turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
-              child: Image(
-                image: AssetImage(Config().splashIcon),
-                height: 120,
-                width: 120,
-                fit: BoxFit.contain,
-              )
-            ),
+          turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
+          child: Image(
+            image: AssetImage(Config().splashIcon),
+            height: 120,
+            width: 120,
+            fit: BoxFit.contain,
+          )),
     ));
   }
 }

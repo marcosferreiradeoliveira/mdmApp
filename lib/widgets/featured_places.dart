@@ -2,12 +2,12 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/blocs/featured_bloc.dart';
-import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/pages/place_details.dart';
-import 'package:travel_hour/utils/next_screen.dart';
-import 'package:travel_hour/widgets/custom_cache_image.dart';
-import 'package:travel_hour/utils/loading_cards.dart';
+import 'package:app_museu_das_mulheres/blocs/featured_bloc.dart';
+import 'package:app_museu_das_mulheres/models/place.dart';
+import 'package:app_museu_das_mulheres/pages/place_details.dart';
+import 'package:app_museu_das_mulheres/utils/next_screen.dart';
+import 'package:app_museu_das_mulheres/widgets/custom_cache_image.dart';
+import 'package:app_museu_das_mulheres/utils/loading_cards.dart';
 
 class Featured extends StatefulWidget {
   Featured({Key? key}) : super(key: key);

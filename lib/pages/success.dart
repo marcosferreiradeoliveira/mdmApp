@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:rive/rive.dart';
 import 'package:flutter/material.dart';
-import 'package:travel_hour/pages/intro.dart';
-import 'package:travel_hour/utils/next_screen.dart';
+import 'package:app_museu_das_mulheres/pages/intro.dart';
+import 'package:app_museu_das_mulheres/utils/next_screen.dart';
 
 class SuccessPage extends StatefulWidget {
   const SuccessPage({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _SuccessPageState extends State<SuccessPage> {
           height: 150,
           width: 150,
           child: RiveAnimation.asset(
-            'assets/rive/success.riv', // Alterado de .flr para .riv
+            'assets/rive/success.riv', // Certifique-se de que o caminho do arquivo está correto
             fit: BoxFit.contain,
             alignment: Alignment.center,
           ),

@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:http/http.dart' as http;
-import 'package:travel_hour/config/config.dart';
-import 'package:travel_hour/models/hotel.dart';
-import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/services/map_service.dart';
-import 'package:travel_hour/utils/convert_map_icon.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
+import 'package:app_museu_das_mulheres/models/hotel.dart';
+import 'package:app_museu_das_mulheres/models/place.dart';
+import 'package:app_museu_das_mulheres/services/map_service.dart';
+import 'package:app_museu_das_mulheres/utils/convert_map_icon.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class HotelPage extends StatefulWidget {
@@ -20,8 +20,6 @@ class HotelPage extends StatefulWidget {
 }
 
 class _HotelPageState extends State<HotelPage> {
-
-  
   late GoogleMapController _controller;
   List<Hotel> _alldata = [];
   PageController? _pageController;
@@ -67,7 +65,6 @@ class _HotelPageState extends State<HotelPage> {
       if (_rawData.isEmpty) {
         openEmptyDialog();
       } else {
-
         _alldata = _rawData.map((m) => Hotel.fromJson(m)).toList();
         _alldata.sort((a, b) => b.rating.compareTo(a.rating));
       }
@@ -104,7 +101,8 @@ class _HotelPageState extends State<HotelPage> {
       // context.read<AdsBloc>().initiateAds();
     });
     super.initState();
-    _pageController = PageController(initialPage: 1, viewportFraction: 0.8)..addListener(_onScroll);
+    _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
+      ..addListener(_onScroll);
     setMarkerIcon();
     getData().then((value) {
       animateCameraAfterInitialization();
@@ -112,12 +110,10 @@ class _HotelPageState extends State<HotelPage> {
     });
   }
 
-
-
   _hotelList(index) {
     final String _photoUrl = _alldata[index].photoReference != null
-    ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${_alldata[index].photoReference}&key=${Config().mapAPIKey}'
-    : Config.emptyImage;
+        ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${_alldata[index].photoReference}&key=${Config().mapAPIKey}'
+        : Config.emptyImage;
     return AnimatedBuilder(
         animation: _pageController!,
         builder: (BuildContext context, Widget? widget) {
@@ -150,21 +146,19 @@ class _HotelPageState extends State<HotelPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                    margin: EdgeInsets.only(
-                      right: 10,
-                    ),
-                    padding: EdgeInsets.all(15),
-                    height: MediaQuery.of(context).size.height,
-                    width: 110,
-                    decoration: BoxDecoration(
+                  margin: EdgeInsets.only(
+                    right: 10,
+                  ),
+                  padding: EdgeInsets.all(15),
+                  height: MediaQuery.of(context).size.height,
+                  width: 110,
+                  decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(5),
                       border: Border.all(width: 0.5, color: Colors.grey[500]!),
                       image: DecorationImage(
-                        image: CachedNetworkImageProvider(_photoUrl),
-                        fit: BoxFit.cover
-                      )
-                    ),
+                          image: CachedNetworkImageProvider(_photoUrl),
+                          fit: BoxFit.cover)),
                 ),
                 Flexible(
                   child: Wrap(
@@ -225,8 +219,6 @@ class _HotelPageState extends State<HotelPage> {
         ));
   }
 
-
-
   _onCardTap(index, _photoUrl) {
     showDialog(
         context: context,
@@ -244,26 +236,21 @@ class _HotelPageState extends State<HotelPage> {
                         height: 200,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.orangeAccent,
-                          image: DecorationImage(
-                            image: CachedNetworkImageProvider(_photoUrl),
-                            fit: BoxFit.cover
-                          )
-                        ),
-
-
+                            color: Colors.orangeAccent,
+                            image: DecorationImage(
+                                image: CachedNetworkImageProvider(_photoUrl),
+                                fit: BoxFit.cover)),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InkWell(
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: CircleAvatar(
-                              child: Icon(Icons.close),
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: CircleAvatar(
+                                child: Icon(Icons.close),
+                              ),
                             ),
-                          ),
-                          onTap: ()=> Navigator.pop(context)
-                        ),
+                            onTap: () => Navigator.pop(context)),
                       )
                     ],
                   ),
@@ -272,11 +259,14 @@ class _HotelPageState extends State<HotelPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(_alldata[index].name!, style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600
-                        ),),
-                        SizedBox(height: 15,),
+                        Text(
+                          _alldata[index].name!,
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
                         Row(
                           children: <Widget>[
                             Icon(
@@ -339,15 +329,23 @@ class _HotelPageState extends State<HotelPage> {
                       children: [
                         TextButton.icon(
                           style: TextButton.styleFrom(
-                            backgroundColor: Theme.of(context).primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25)
-                            ),
-                            padding: EdgeInsets.all(10)
+                              backgroundColor: Theme.of(context).primaryColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25)),
+                              padding: EdgeInsets.all(10)),
+                          icon: Icon(
+                            LineIcons.directions,
+                            color: Colors.white,
                           ),
-                          icon: Icon(LineIcons.directions, color: Colors.white,),
-                          label: Text('Get Directions', style: TextStyle(color: Colors.white),),
-                          onPressed: ()=> MapService.openMap(_alldata[index].lat!, _alldata[index].lng!, _alldata[index].placeId!, context),
+                          label: Text(
+                            'Get Directions',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () => MapService.openMap(
+                              _alldata[index].lat!,
+                              _alldata[index].lng!,
+                              _alldata[index].placeId!,
+                              context),
                         ),
                       ],
                     ),
@@ -374,8 +372,6 @@ class _HotelPageState extends State<HotelPage> {
       style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
     ));
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -487,12 +483,11 @@ class _HotelPageState extends State<HotelPage> {
 
   moveCamera() {
     _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(_alldata[_pageController!.page!.toInt()].lat!, _alldata[_pageController!.page!.toInt()].lng!),
-        zoom: 20,
-        bearing: 45.0,
-        tilt: 45.0,
-        
-      )
-    ));
+      target: LatLng(_alldata[_pageController!.page!.toInt()].lat!,
+          _alldata[_pageController!.page!.toInt()].lng!),
+      zoom: 20,
+      bearing: 45.0,
+      tilt: 45.0,
+    )));
   }
 }

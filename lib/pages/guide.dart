@@ -6,12 +6,12 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geo/geo.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:travel_hour/blocs/ads_bloc.dart';
-import 'package:travel_hour/models/colors.dart';
-import 'package:travel_hour/config/config.dart';
-import 'package:travel_hour/models/place.dart';
+import 'package:app_museu_das_mulheres/blocs/ads_bloc.dart';
+import 'package:app_museu_das_mulheres/models/colors.dart';
+import 'package:app_museu_das_mulheres/config/config.dart';
+import 'package:app_museu_das_mulheres/models/place.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:travel_hour/utils/convert_map_icon.dart';
+import 'package:app_museu_das_mulheres/utils/convert_map_icon.dart';
 import 'package:provider/provider.dart';
 
 class GuidePage extends StatefulWidget {
@@ -51,7 +51,8 @@ class _GuidePageState extends State<GuidePage> {
 
   Future _setMarkerIcons() async {
     _sourceIcon = await getBytesFromAsset(Config().drivingMarkerIcon, 60);
-    _destinationIcon = await getBytesFromAsset(Config().destinationMarkerIcon, 60);
+    _destinationIcon =
+        await getBytesFromAsset(Config().destinationMarkerIcon, 60);
   }
 
   Future addMarker() async {
@@ -102,14 +103,19 @@ class _GuidePageState extends State<GuidePage> {
 
   _addPolyLine() {
     PolylineId id = PolylineId("poly");
-    Polyline polyline = Polyline(polylineId: id, color: Color.fromARGB(255, 40, 122, 198), points: polylineCoordinates);
+    Polyline polyline = Polyline(
+        polylineId: id,
+        color: Color.fromARGB(255, 40, 122, 198),
+        points: polylineCoordinates);
     polylines[id] = polyline;
     setState(() {});
   }
 
   void animateCamera() {
-    mapController.animateCamera(
-        CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(data!['startpoint lat'], data!['startpoint lng']), zoom: 8, bearing: 120)));
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(data!['startpoint lat'], data!['startpoint lng']),
+        zoom: 8,
+        bearing: 120)));
   }
 
   void onMapCreated(controller) {
@@ -125,7 +131,10 @@ class _GuidePageState extends State<GuidePage> {
     Future.delayed(Duration(milliseconds: 0)).then((value) async {
       context.read<AdsBloc>().initiateAds();
     });
-    _setMarkerIcons().then((value) => getData()).then((value) => addMarker()).then((value) {
+    _setMarkerIcons()
+        .then((value) => getData())
+        .then((value) => addMarker())
+        .then((value) {
       if (data!.isNotEmpty) {
         animateCamera();
       }
@@ -143,7 +152,9 @@ class _GuidePageState extends State<GuidePage> {
             Container(
               width: 30,
               height: 5,
-              decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.all(Radius.circular(12.0))),
+              decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.all(Radius.circular(12.0))),
             ),
           ],
         ),
@@ -164,23 +175,41 @@ class _GuidePageState extends State<GuidePage> {
         ),
         RichText(
             text: TextSpan(
-                style: TextStyle(color: Colors.grey[800], fontSize: 15, fontWeight: FontWeight.normal),
+                style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal),
                 text: 'estimated cost = '.tr(),
                 children: <TextSpan>[
-              TextSpan(style: TextStyle(color: Colors.grey[800], fontSize: 18, fontWeight: FontWeight.bold), text: data!['price'])
+              TextSpan(
+                  style: TextStyle(
+                      color: Colors.grey[800],
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                  text: data!['price'])
             ])),
         RichText(
             text: TextSpan(
-                style: TextStyle(color: Colors.grey[800], fontSize: 15, fontWeight: FontWeight.normal),
+                style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal),
                 text: 'distance = '.tr(),
                 children: <TextSpan>[
-              TextSpan(style: TextStyle(color: Colors.grey[800], fontSize: 18, fontWeight: FontWeight.bold), text: distance)
+              TextSpan(
+                  style: TextStyle(
+                      color: Colors.grey[800],
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                  text: distance)
             ])),
         Container(
           margin: EdgeInsets.only(top: 8, bottom: 8),
           height: 3,
           width: 170,
-          decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(40)),
+          decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(40)),
         ),
         Container(
             padding: EdgeInsets.all(15),
@@ -196,7 +225,9 @@ class _GuidePageState extends State<GuidePage> {
                   margin: EdgeInsets.only(top: 8, bottom: 8),
                   height: 3,
                   width: 70,
-                  decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(40)),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(40)),
                 ),
               ],
             )),
@@ -221,7 +252,8 @@ class _GuidePageState extends State<GuidePage> {
                                     '${index + 1}',
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  backgroundColor: ColorList().guideColors[index]),
+                                  backgroundColor:
+                                      ColorList().guideColors[index]),
                               Container(
                                 height: 90,
                                 width: 2,
@@ -289,8 +321,12 @@ class _GuidePageState extends State<GuidePage> {
             backdropOpacity: 0.2,
             backdropTapClosesPanel: true,
             isDraggable: true,
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-            boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey[400]!, blurRadius: 4, offset: Offset(1, 0))],
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.grey[400]!, blurRadius: 4, offset: Offset(1, 0))
+            ],
             padding: EdgeInsets.only(top: 15, left: 10, bottom: 0, right: 10),
             panel: panelUI(),
             body: panelBodyUI(h, w)),
@@ -307,7 +343,12 @@ class _GuidePageState extends State<GuidePage> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
-                        boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, offset: Offset(3, 3))]),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: Colors.grey[300]!,
+                              blurRadius: 10,
+                              offset: Offset(3, 3))
+                        ]),
                     child: Icon(Icons.keyboard_backspace),
                   ),
                   onTap: () {
@@ -322,12 +363,16 @@ class _GuidePageState extends State<GuidePage> {
                     : Container(
                         width: MediaQuery.of(context).size.width * 0.80,
                         decoration: BoxDecoration(
-                            color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.grey, width: 0.5)),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.grey, width: 0.5)),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15, top: 10, bottom: 10, right: 15),
+                          padding: const EdgeInsets.only(
+                              left: 15, top: 10, bottom: 10, right: 15),
                           child: Text(
                             '${data!['startpoint name']} - ${data!['endpoint name']}',
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
